@@ -11,7 +11,8 @@
 | Linux x86_64 | `AudioALL-linux-x86_64.tar.gz`; распаковать и запустить `AudioALL/bin/AudioALL` |
 | Android 8.0+ | `AudioALL-android.apk`; установить APK, разрешить микрофон при первом приёме |
 | Linux / Windows с Java 8+ | `AudioALL.jar`; `java -jar AudioALL.jar` |
-| Windows | `run-windows.bat` рядом с JAR; самостоятельную EXE-сборку создаёт `scripts/build-windows.ps1 -Package` на Windows с JDK 17+ |
+| Windows x86_64 | `AudioALL-windows-x86_64.zip`; распаковать и запустить `AudioALL/AudioALL.exe` (встроенная Java) |
+| Windows, переносимый JAR | `run-windows.bat` рядом с JAR; нужен Java 8+ |
 
 Linux-архив включает Java runtime: отдельно Java устанавливать не требуется. Нужны графическое окружение, системные библиотеки X11/fontconfig/ALSA и звуковой сервер вашей системы. Android APK подписан локальным ключом разработки; он подходит для прямой установки. Для публикации используйте собственный постоянный ключ.
 
@@ -71,7 +72,7 @@ export ANDROID_SDK_ROOT=/path/to/android-sdk
 ./scripts/build-android.sh
 ```
 
-Сборка использует `javac → aapt2 → d8 → zipalign → apksigner`, без AndroidX/Gradle и внешних зависимостей приложения. APK содержит DEX и общую Java-библиотеку, поэтому подходит для ARM/ARM64/x86/x86_64. Для своего ключа задайте `AUDIOALL_KEYSTORE`, `AUDIOALL_KEY_ALIAS`, `AUDIOALL_STORE_PASSWORD`, `AUDIOALL_KEY_PASSWORD`. Сохраните ключ, которым подписали APK, для будущих обновлений.
+Сборка использует `javac → aapt2 → d8 → zipalign → apksigner`, без AndroidX/Gradle и внешних зависимостей приложения. APK содержит DEX и общую Java-библиотеку, поэтому подходит для ARM/ARM64/x86/x86_64. Для своего ключа задайте `AUDIOALL_KEYSTORE`, `AUDIOALL_KEY_ALIAS`, `AUDIOALL_STORE_PASSWORD`, `AUDIOALL_KEY_PASSWORD`. Сохраните ключ, которым подписали APK, для будущих обновлений. Сборки CI используют новый ключ разработки при каждом чистом запуске: для обновлений без переустановки настройте постоянный ключ.
 
 ### Windows
 

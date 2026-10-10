@@ -17,6 +17,8 @@ if ($Package) {
     & jpackage --type app-image --name AudioALL --app-version 1.0.0 --input build\package-input --main-jar AudioALL.jar --main-class org.audioall.desktop.Main --dest dist\windows --java-options '-Xmx512m'
     if ($LASTEXITCODE -ne 0) { throw 'jpackage failed' }
     Copy-Item README.md,LICENSE dist\windows\AudioALL\ -Force
+    New-Item -ItemType Directory -Force dist\windows\AudioALL\docs | Out-Null
+    Copy-Item docs\*.md,docs\desktop.png dist\windows\AudioALL\docs\ -Force
     Compress-Archive -Path dist\windows\AudioALL -DestinationPath dist\AudioALL-windows-x86_64.zip -Force
 }
 Write-Host 'Created dist/AudioALL.jar (run with Java 8+).'

@@ -51,7 +51,8 @@ Robot 72 проверен внутренним round trip и публичным�
 - CLI собранного JAR кодирует и декодирует русское сообщение с emoji.
 - Командная строка **Java runtime из готовой Linux-сборки** кодирует и декодирует сообщение. Это проверяет состав модулей встроенного runtime.
 - APK: javac/D8/aapt2 прошли; ZIP/DEX/manifest/resources целы; `zipalign -c -p 4` проходит; `apksigner verify` подтверждает подписи v2 и v3. APK содержит Java DEX без архитектурно зависимых нативных библиотек.
-- Автоматическая сборка Linux/Android и Windows настроена в `.github/workflows/build.yml`. Результаты конкретных запусков доступны в GitHub Actions.
+- [GitHub Actions: Linux/Android и Windows](https://github.com/qememe/Audio-transletor/actions/runs/38050679290): оба задания успешно завершены, включая автоматическое создание Windows EXE с runtime.
+- Готовый Windows `AudioALL.exe` запущен через Windows interop: закодировал русскоязычное/Unicode-сообщение в WAV. Готовый Linux launcher успешно декодировал этот WAV, сообщение совпало. Аппаратный звук Windows отдельно не проверялся.
 
 ## Практические пределы проверки
 
