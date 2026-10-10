@@ -13,6 +13,7 @@ cp docs/PROTOCOLS.md build/linux/AudioALL/PROTOCOLS.md
 cp docs/QUICKSTART.md build/linux/AudioALL/QUICKSTART.md
 cp LICENSE build/linux/AudioALL/LICENSE
 mkdir -p dist/linux
+rm -rf dist/linux/AudioALL
 cp -a build/linux/AudioALL dist/linux/
 tar -czf dist/AudioALL-linux-x86_64.tar.gz -C build/linux AudioALL
 printf 'Created dist/linux/AudioALL/bin/AudioALL and dist/AudioALL-linux-x86_64.tar.gz\n'

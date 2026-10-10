@@ -2,7 +2,7 @@ param([switch]$Package)
 $ErrorActionPreference = 'Stop'
 Set-Location (Join-Path $PSScriptRoot '..')
 New-Item -ItemType Directory -Force build\desktop, dist | Out-Null
-$sources = Get-ChildItem core\src,desktop\src -Recurse -Filter '*.java' | ForEach-Object { '"' + $_.FullName + '"' }
+$sources = Get-ChildItem core\src,desktop\src -Recurse -Filter '*.java' | ForEach-Object { '"' + $_.FullName.Replace('\', '/') + '"' }
 # PowerShell 5.1 defaults to UTF-16; javac argfile needs UTF-8 without BOM.
 [System.IO.File]::WriteAllLines((Join-Path $PWD 'build\desktop-sources.txt'), $sources, (New-Object System.Text.UTF8Encoding($false)))
 & javac --release 8 -encoding UTF-8 -d build\desktop '@build/desktop-sources.txt'
