@@ -17,7 +17,15 @@ jobs:
       - name: Package Linux
         run: ./scripts/package-linux.sh
       - name: Install Android build SDK
-        run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+        run: |
+          sdk="$RUNNER_TEMP/audioall-sdk"
+          mkdir -p "$sdk/cmdline-tools"
+          curl -fL --retry 3 -o "$RUNNER_TEMP/android-commandline.zip" https://dl.google.com/android/repository/commandlinetools-linux-13114758_latest.zip
+          unzip -q "$RUNNER_TEMP/android-commandline.zip" -d "$sdk/cmdline-tools"
+          mv "$sdk/cmdline-tools/cmdline-tools" "$sdk/cmdline-tools/latest"
+          "$sdk/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$sdk" --licenses < <(yes) > "$RUNNER_TEMP/android-licenses.log"
+          "$sdk/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$sdk" 'platforms;android-35' 'build-tools;35.0.0'
+          echo "ANDROID_SDK_ROOT=$sdk" >> "$GITHUB_ENV"
       - name: Build signed development APK
         run: ./scripts/build-android.sh
       - uses: actions/upload-artifact@v4
