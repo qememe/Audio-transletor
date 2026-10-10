@@ -9,8 +9,8 @@ rm -rf build/linux-runtime build/linux/AudioALL
 jlink --add-modules java.desktop,java.logging --strip-debug --no-header-files --no-man-pages --compress=2 --output build/linux-runtime
 jpackage --type app-image --name AudioALL --app-version 1.0.0 --vendor AudioALL --description 'Images, text, audio and video files over sound' --input build/package-input --main-jar AudioALL.jar --main-class org.audioall.desktop.Main --runtime-image build/linux-runtime --dest build/linux --java-options '-Xmx512m'
 cp README.md build/linux/AudioALL/README.md
-cp docs/PROTOCOLS.md build/linux/AudioALL/PROTOCOLS.md
-cp docs/QUICKSTART.md build/linux/AudioALL/QUICKSTART.md
+mkdir -p build/linux/AudioALL/docs
+cp docs/*.md docs/desktop.png build/linux/AudioALL/docs/
 cp LICENSE build/linux/AudioALL/LICENSE
 mkdir -p dist/linux
 rm -rf dist/linux/AudioALL
