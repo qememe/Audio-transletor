@@ -1,0 +1,45 @@
+name: Build and test AudioALL
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  linux-android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Test shared codecs
+        run: ./scripts/test.sh
+      - name: Package Linux
+        run: ./scripts/package-linux.sh
+      - name: Install Android build SDK
+        run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+      - name: Build signed development APK
+        run: ./scripts/build-android.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AudioALL-linux-android
+          path: |
+            dist/AudioALL-linux-x86_64.tar.gz
+            dist/AudioALL-android.apk
+            dist/AudioALL.jar
+            dist/run-windows.bat
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Build native Windows launcher and runtime
+        shell: pwsh
+        run: ./scripts/build-windows.ps1 -Package
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AudioALL-windows
+          path: dist/AudioALL-windows-x86_64.zip

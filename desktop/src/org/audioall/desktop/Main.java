@@ -38,7 +38,7 @@ public final class Main {
             PacketModem.Listener files=new PacketModem.Listener(){public void status(String s){}public void error(String s){System.err.println(s);}public void transfer(Transfer t){try{Path p=MediaIO.save(output,t.name,t.data);count[0]++;System.out.println(t.kind+": "+p);if(t.kind==Transfer.Kind.TEXT)System.out.println(new String(t.data,"UTF-8"));}catch(IOException e){throw new java.io.UncheckedIOException(e);}}};
             Sstv.Listener images=new Sstv.Listener(){public void status(String s){System.out.println(s);}public void image(Raster r,Sstv.Mode m,boolean complete,int lines){if(complete)try{System.out.println("SSTV: "+MediaIO.saveImage(output,r,m));count[0]++;}catch(IOException e){throw new java.io.UncheckedIOException(e);}}};
             Receiver receiver=new Receiver(files,images);try(InputStream in=new FileInputStream(required(options,"--wav"))){Wave.read(in,receiver,Audio.NONE);}
-            String incomplete=receiver.incomplete();if(!incomplete.isEmpty())System.err.println(incomplete);if(count[0]==0)throw new IOException("Ни одной полной передачи не найдено");return;
+            receiver.finish();String incomplete=receiver.incomplete();if(!incomplete.isEmpty())System.err.println(incomplete);if(count[0]==0)throw new IOException("Ни одной полной передачи не найдено");return;
         }
         throw new IllegalArgumentException("Неизвестная команда. Используйте --help");
     }
